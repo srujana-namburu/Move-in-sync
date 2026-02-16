@@ -1,0 +1,20 @@
+{
+  "total_tests": 0,
+  "passed_tests": 0,
+  "failed_tests": 0,
+  "tool_selection_accuracy": 0.0,
+  "tool_selection_correct": 0,
+  "tool_selection_total": 0,
+  "entity_extraction_accuracy": 0.0,
+  "entity_extraction_correct": 0,
+  "entity_extraction_total": 0,
+  "hitl_accuracy": 0.0,
+  "hitl_correct": 0,
+  "hitl_total": 0,
+  "avg_latency_ms": 0.0,
+  "max_latency_ms": 0.0,
+  "p95_latency_ms": 0.0,
+  "category_scores": {},
+  "overall_accuracy": 0.0,
+  "note": "Initial baseline - will be updated after first successful eval run"
+}
