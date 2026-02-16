@@ -1,0 +1,207 @@
+name: MoveInSync CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # Job 1: Code Quality Checks
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality & Linting
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Cache Python dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install black ruff mypy bandit safety
+        pip install -r backend/requirements.txt
+
+    - name: Run Black (code formatting check)
+      run: |
+        black --check backend/Agents/ backend/routes/movi.py tests/test_tools.py tests/test_langgraph_flow.py evals/eval_suite.py || echo "⚠️ Black formatting issues found"
+      continue-on-error: true
+
+    - name: Run Ruff (linting)
+      run: |
+        ruff check backend/Agents/ backend/routes/movi.py --select E,F,W,C,N || echo "⚠️ Ruff linting issues found"
+      continue-on-error: true
+
+    - name: Run Bandit (security check)
+      run: |
+        bandit -r backend/Agents/ backend/routes/ -ll || echo "⚠️ Security issues found"
+      continue-on-error: true
+
+  # Job 2: Type Checking
+  type-checking:
+    runs-on: ubuntu-latest
+    name: Type Checking (mypy)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        pip install mypy types-requests
+        pip install -r backend/requirements.txt
+
+    - name: Run mypy type checking
+      run: |
+        mypy backend/Agents/ backend/routes/movi.py --ignore-missing-imports --check-untyped-defs --no-strict-optional
+      continue-on-error: false
+
+  # Job 3: Unit Tests
+  unit-tests:
+    runs-on: ubuntu-latest
+    name: Unit Tests with Coverage
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        pip install pytest pytest-cov pytest-asyncio pytest-mock
+        pip install -r backend/requirements.txt
+
+    - name: Run unit tests with coverage
+      env:
+        PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/backend
+      run: |
+        pytest tests/ -v --cov=backend --cov-report=term --cov-report=xml --cov-fail-under=60
+      continue-on-error: false
+
+    - name: Upload coverage to artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage.xml
+
+  # Job 4: AI Agent Evaluation Suite
+  agent-evaluation:
+    runs-on: ubuntu-latest
+    name: AI Agent Evaluation & Regression Detection
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        pip install -r backend/requirements.txt
+
+    - name: Run evaluation suite
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/backend
+      run: |
+        python evals/eval_suite.py --dataset evals/dataset.json --baseline evals/baseline.json
+      continue-on-error: false
+
+    - name: Upload eval results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: eval-results
+        path: evals/results_*.json
+
+  # Job 5: Integration Tests (if applicable)
+  integration-tests:
+    runs-on: ubuntu-latest
+    name: Integration Tests
+    needs: [unit-tests]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        pip install pytest pytest-asyncio
+        pip install -r backend/requirements.txt
+
+    - name: Run integration tests
+      env:
+        PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/backend
+      run: |
+        pytest tests/ -v -m integration
+      continue-on-error: true
+
+  # Job 6: Docker Build Test
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Docker Build Verification
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker image
+      run: |
+        docker build -t moveinsync-backend:test .
+
+    - name: Test Docker image runs
+      run: |
+        docker run -d --name test-container moveinsync-backend:test
+        sleep 5
+        docker logs test-container
+        docker stop test-container
+
+  # Job 7: Summary Report
+  test-summary:
+    runs-on: ubuntu-latest
+    name: Test Summary
+    needs: [code-quality, type-checking, unit-tests, agent-evaluation]
+    if: always()
+
+    steps:
+    - name: Summary
+      run: |
+        echo "## CI/CD Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Code quality checks: ${{ needs.code-quality.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Type checking: ${{ needs.type-checking.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Unit tests: ${{ needs.unit-tests.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Agent evaluation: ${{ needs.agent-evaluation.result }}" >> $GITHUB_STEP_SUMMARY
