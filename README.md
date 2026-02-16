@@ -706,15 +706,13 @@ moveinsync/
 # Required
 OPENAI_API_KEY=sk-your-openai-api-key
 
-# Database (defaults to SQLite)
-DATABASE_URL=sqlite:///./moveinsync.db
-# For PostgreSQL: postgresql://user:password@localhost:5432/moveinsync
 
-# Optional: LiveKit (for alternative voice implementation)
-LIVEKIT_URL=wss://your-livekit-url
-LIVEKIT_API_KEY=your-livekit-api-key
-LIVEKIT_API_SECRET=your-livekit-api-secret
+LANGSMITH_API_KEY=YOUR LANGSMITH API KEY
+LANGSMITH_TRACING=true
+LANGSMITH_PROJECT=YOUR LANGSMITH PROJECT NAME
+LANGSMITH_ENDPOINT=YOUR LANGSMITH ENDPOINT
 ```
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/6b6a872e-0737-4dc0-ba28-4238a612759d" />
 
 #### Frontend (`.env`)
 
