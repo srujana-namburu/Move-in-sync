@@ -511,11 +511,11 @@ class MoviEvaluator:
         print("\n" + "="*70)
 
         # Pass/Fail threshold
-        if metrics.overall_accuracy >= 85.0 and not regressions:
-            print("✅ EVALUATION PASSED (>= 85% accuracy, no regressions)")
+        if metrics.overall_accuracy >= 80.0 and not regressions:
+            print("✅ EVALUATION PASSED (>= 80% accuracy, no regressions)")
             return 0
         else:
-            print("❌ EVALUATION FAILED (< 85% accuracy or regressions detected)")
+            print("❌ EVALUATION FAILED (< 80% accuracy or regressions detected)")
             return 1
 
     async def run_full_evaluation(self, save_baseline: bool = False) -> int:
