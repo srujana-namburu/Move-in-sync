@@ -1,0 +1,468 @@
+{
+  "timestamp": "2026-02-18T23:53:18.585452",
+  "metrics": {
+    "total_tests": 27,
+    "passed_tests": 23,
+    "failed_tests": 4,
+    "tool_selection_accuracy": 91.30434782608695,
+    "tool_selection_correct": 21,
+    "tool_selection_total": 23,
+    "entity_extraction_accuracy": 84.61538461538461,
+    "entity_extraction_correct": 11,
+    "entity_extraction_total": 13,
+    "hitl_accuracy": 100.0,
+    "hitl_correct": 27,
+    "hitl_total": 27,
+    "avg_latency_ms": 2455.579236701683,
+    "max_latency_ms": 3551.3410568237305,
+    "p95_latency_ms": 3550.205945968628,
+    "category_scores": {
+      "query": 100.0,
+      "mutation": 77.77777777777779,
+      "context": 50.0,
+      "hitl": 100.0
+    },
+    "overall_accuracy": 85.18518518518519
+  },
+  "results": [
+    {
+      "test_id": "tool_001",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "get_all_trips",
+      "predicted_tool": "get_all_trips",
+      "expected_entities": {},
+      "predicted_entities": {},
+      "latency_ms": 2532.1388244628906,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_002",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "get_trip_status",
+      "predicted_tool": "get_trip_status",
+      "expected_entities": {
+        "trip_name": "Morning Shift"
+      },
+      "predicted_entities": {
+        "trip_display_name": "Morning Shift"
+      },
+      "latency_ms": 2902.3070335388184,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_003",
+      "passed": true,
+      "category": "mutation",
+      "expected_tool": "delete_trip",
+      "predicted_tool": "delete_trip",
+      "expected_entities": {
+        "trip_name": "Evening Express"
+      },
+      "predicted_entities": {
+        "trip_display_name": "Evening Express"
+      },
+      "latency_ms": 1070.8227157592773,
+      "error": null,
+      "hitl_triggered": true,
+      "expected_hitl": true
+    },
+    {
+      "test_id": "tool_004",
+      "passed": false,
+      "category": "mutation",
+      "expected_tool": "create_new_trip",
+      "predicted_tool": "create_new_trip",
+      "expected_entities": {
+        "trip_name": "Night Shuttle",
+        "route_name": "HSR Route",
+        "shift_time": "10 PM"
+      },
+      "predicted_entities": {
+        "route_display_name": "HSR Route",
+        "trip_display_name": "Night Shuttle",
+        "live_status": "Scheduled"
+      },
+      "latency_ms": 3135.040044784546,
+      "error": "Tool: True, Entities: False, HITL: True",
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_005",
+      "passed": true,
+      "category": "mutation",
+      "expected_tool": "assign_vehicle_and_driver_to_trip",
+      "predicted_tool": "assign_vehicle_and_driver_to_trip",
+      "expected_entities": {
+        "trip_name": "Morning Shift",
+        "vehicle_license": "KA-01-AB-1234",
+        "driver_name": "Ramesh"
+      },
+      "predicted_entities": {
+        "trip_display_name": "Morning Shift",
+        "vehicle_license_plate": "KA-01-AB-1234",
+        "driver_name": "Ramesh"
+      },
+      "latency_ms": 3550.205945968628,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_006",
+      "passed": true,
+      "category": "mutation",
+      "expected_tool": "remove_vehicle_from_trip",
+      "predicted_tool": "remove_vehicle_from_trip",
+      "expected_entities": {
+        "trip_name": "Evening Shift"
+      },
+      "predicted_entities": {
+        "trip_display_name": "Evening Shift"
+      },
+      "latency_ms": 1239.0940189361572,
+      "error": null,
+      "hitl_triggered": true,
+      "expected_hitl": true
+    },
+    {
+      "test_id": "tool_007",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "list_all_vehicles",
+      "predicted_tool": "list_all_vehicles",
+      "expected_entities": {},
+      "predicted_entities": {},
+      "latency_ms": 2646.6310024261475,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_008",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "get_unassigned_vehicles",
+      "predicted_tool": "get_unassigned_vehicles",
+      "expected_entities": {},
+      "predicted_entities": {},
+      "latency_ms": 2893.544912338257,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_009",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "list_all_drivers",
+      "predicted_tool": "list_all_drivers",
+      "expected_entities": {},
+      "predicted_entities": {},
+      "latency_ms": 2461.5330696105957,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_010",
+      "passed": true,
+      "category": "mutation",
+      "expected_tool": "update_trip",
+      "predicted_tool": "update_trip",
+      "expected_entities": {
+        "trip_name": "Morning Shift",
+        "booking_percentage": "85"
+      },
+      "predicted_entities": {
+        "trip_id": null,
+        "display_name": "Morning Shift",
+        "booking_status_percentage": 85,
+        "live_status": null
+      },
+      "latency_ms": 1332.7980041503906,
+      "error": null,
+      "hitl_triggered": true,
+      "expected_hitl": true
+    },
+    {
+      "test_id": "tool_011",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "list_all_stops",
+      "predicted_tool": "list_all_stops",
+      "expected_entities": {},
+      "predicted_entities": {},
+      "latency_ms": 2815.8509731292725,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_012",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "get_stop_details",
+      "predicted_tool": "get_stop_details",
+      "expected_entities": {
+        "stop_name": "Electronic City"
+      },
+      "predicted_entities": {
+        "stop_name": "Electronic City"
+      },
+      "latency_ms": 2651.1099338531494,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_013",
+      "passed": true,
+      "category": "mutation",
+      "expected_tool": "create_new_stop",
+      "predicted_tool": "create_new_stop",
+      "expected_entities": {
+        "stop_name": "Whitefield Hub",
+        "latitude": "12.9698",
+        "longitude": "77.7499"
+      },
+      "predicted_entities": {
+        "stop_name": "Whitefield Hub",
+        "latitude": 12.9698,
+        "longitude": 77.7499
+      },
+      "latency_ms": 3510.042190551758,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_014",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "list_all_paths",
+      "predicted_tool": "list_all_paths",
+      "expected_entities": {},
+      "predicted_entities": {},
+      "latency_ms": 2265.981912612915,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_015",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "list_stops_for_path",
+      "predicted_tool": "list_stops_for_path",
+      "expected_entities": {
+        "path_name": "Electronic City Path"
+      },
+      "predicted_entities": {
+        "path_name": "Electronic City"
+      },
+      "latency_ms": 2892.6658630371094,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_016",
+      "passed": true,
+      "category": "mutation",
+      "expected_tool": "create_new_path",
+      "predicted_tool": "create_new_path",
+      "expected_entities": {
+        "path_name": "Koramangala Route",
+        "stops": [
+          "Silk Board",
+          "BTM",
+          "Koramangala"
+        ]
+      },
+      "predicted_entities": {
+        "path_name": "Koramangala Route",
+        "stop_names": [
+          "Silk Board",
+          "BTM",
+          "Koramangala"
+        ]
+      },
+      "latency_ms": 3190.659761428833,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_017",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "list_all_routes",
+      "predicted_tool": "list_all_routes",
+      "expected_entities": {},
+      "predicted_entities": {},
+      "latency_ms": 3009.410858154297,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_018",
+      "passed": true,
+      "category": "query",
+      "expected_tool": "list_routes_using_path",
+      "predicted_tool": "list_routes_using_path",
+      "expected_entities": {
+        "path_name": "Whitefield Path"
+      },
+      "predicted_entities": {
+        "path_name": "Whitefield Path"
+      },
+      "latency_ms": 2529.39510345459,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_019",
+      "passed": true,
+      "category": "mutation",
+      "expected_tool": "create_new_route",
+      "predicted_tool": "create_new_route",
+      "expected_entities": {
+        "path_name": "Electronic City Path",
+        "shift_time": "9 AM",
+        "capacity": "45"
+      },
+      "predicted_entities": {
+        "route_name": "Electronic City Route",
+        "path_name": "Electronic City Path",
+        "shift_time": "9 AM",
+        "direction": "",
+        "capacity": 45,
+        "status": ""
+      },
+      "latency_ms": 3551.3410568237305,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "tool_020",
+      "passed": false,
+      "category": "mutation",
+      "expected_tool": "update_route_status",
+      "predicted_tool": "update_route",
+      "expected_entities": {
+        "route_name": "HSR Layout Route",
+        "status": "deactivated"
+      },
+      "predicted_entities": {
+        "route_id": "HSR Layout Route",
+        "status": "deactivated"
+      },
+      "latency_ms": 1624.6232986450195,
+      "error": "Tool: False, Entities: True, HITL: True",
+      "hitl_triggered": true,
+      "expected_hitl": true
+    },
+    {
+      "test_id": "ctx_001",
+      "passed": true,
+      "category": "context",
+      "expected_tool": "get_all_trips",
+      "predicted_tool": "get_all_trips",
+      "expected_entities": null,
+      "predicted_entities": null,
+      "latency_ms": 2756.1299800872803,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "ctx_002",
+      "passed": true,
+      "category": "context",
+      "expected_tool": "list_all_stops",
+      "predicted_tool": "list_all_stops",
+      "expected_entities": null,
+      "predicted_entities": null,
+      "latency_ms": 2356.7140102386475,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "ctx_003",
+      "passed": false,
+      "category": "context",
+      "expected_tool": "list_all_routes",
+      "predicted_tool": "",
+      "expected_entities": null,
+      "predicted_entities": null,
+      "latency_ms": 2539.0830039978027,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "ctx_004",
+      "passed": false,
+      "category": "context",
+      "expected_tool": null,
+      "predicted_tool": "create_new_trip",
+      "expected_entities": null,
+      "predicted_entities": null,
+      "latency_ms": 3181.584119796753,
+      "error": null,
+      "hitl_triggered": false,
+      "expected_hitl": false
+    },
+    {
+      "test_id": "hitl_001",
+      "passed": true,
+      "category": "hitl",
+      "expected_tool": null,
+      "predicted_tool": null,
+      "expected_entities": null,
+      "predicted_entities": null,
+      "latency_ms": 1101.088047027588,
+      "error": null,
+      "hitl_triggered": true,
+      "expected_hitl": true
+    },
+    {
+      "test_id": "hitl_002",
+      "passed": true,
+      "category": "hitl",
+      "expected_tool": null,
+      "predicted_tool": null,
+      "expected_entities": null,
+      "predicted_entities": null,
+      "latency_ms": 1459.6037864685059,
+      "error": null,
+      "hitl_triggered": true,
+      "expected_hitl": true
+    },
+    {
+      "test_id": "hitl_003",
+      "passed": true,
+      "category": "hitl",
+      "expected_tool": null,
+      "predicted_tool": null,
+      "expected_entities": null,
+      "predicted_entities": null,
+      "latency_ms": 1101.2399196624756,
+      "error": null,
+      "hitl_triggered": true,
+      "expected_hitl": true
+    }
+  ],
+  "regressions": []
+}

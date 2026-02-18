@@ -3,7 +3,7 @@
     {
       "id": "tool_001",
       "input": "Show me all trips scheduled for today",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "get_all_trips",
       "expected_entities": {},
       "category": "query"
@@ -11,7 +11,7 @@
     {
       "id": "tool_002",
       "input": "What's the status of Morning Shift trip?",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "get_trip_status",
       "expected_entities": {
         "trip_name": "Morning Shift"
@@ -21,7 +21,7 @@
     {
       "id": "tool_003",
       "input": "Delete the Evening Express trip",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "delete_trip",
       "expected_entities": {
         "trip_name": "Evening Express"
@@ -32,7 +32,7 @@
     {
       "id": "tool_004",
       "input": "Create a new trip called Night Shuttle on the HSR Route at 10 PM",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "create_new_trip",
       "expected_entities": {
         "trip_name": "Night Shuttle",
@@ -44,7 +44,7 @@
     {
       "id": "tool_005",
       "input": "Assign vehicle KA-01-AB-1234 to Morning Shift with driver Ramesh",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "assign_vehicle_and_driver_to_trip",
       "expected_entities": {
         "trip_name": "Morning Shift",
@@ -56,7 +56,7 @@
     {
       "id": "tool_006",
       "input": "Remove the vehicle from Evening Shift",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "remove_vehicle_from_trip",
       "expected_entities": {
         "trip_name": "Evening Shift"
@@ -67,7 +67,7 @@
     {
       "id": "tool_007",
       "input": "List all available vehicles",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "list_all_vehicles",
       "expected_entities": {},
       "category": "query"
@@ -75,7 +75,7 @@
     {
       "id": "tool_008",
       "input": "Which vehicles are unassigned right now?",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "get_unassigned_vehicles",
       "expected_entities": {},
       "category": "query"
@@ -83,7 +83,7 @@
     {
       "id": "tool_009",
       "input": "Show me all drivers",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "list_all_drivers",
       "expected_entities": {},
       "category": "query"
@@ -91,7 +91,7 @@
     {
       "id": "tool_010",
       "input": "Update the Morning Shift booking percentage to 85%",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "update_trip",
       "expected_entities": {
         "trip_name": "Morning Shift",
@@ -103,7 +103,7 @@
     {
       "id": "tool_011",
       "input": "List all stops in the system",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_tool": "list_all_stops",
       "expected_entities": {},
       "category": "query"
@@ -111,7 +111,7 @@
     {
       "id": "tool_012",
       "input": "What are the details of Electronic City stop?",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_tool": "get_stop_details",
       "expected_entities": {
         "stop_name": "Electronic City"
@@ -121,7 +121,7 @@
     {
       "id": "tool_013",
       "input": "Create a new stop called Whitefield Hub at coordinates 12.9698, 77.7499",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_tool": "create_new_stop",
       "expected_entities": {
         "stop_name": "Whitefield Hub",
@@ -133,7 +133,7 @@
     {
       "id": "tool_014",
       "input": "Show all available paths",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_tool": "list_all_paths",
       "expected_entities": {},
       "category": "query"
@@ -141,7 +141,7 @@
     {
       "id": "tool_015",
       "input": "What stops are in the Electronic City Path?",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_tool": "list_stops_for_path",
       "expected_entities": {
         "path_name": "Electronic City Path"
@@ -151,7 +151,7 @@
     {
       "id": "tool_016",
       "input": "Create a new path called Koramangala Route with stops: Silk Board, BTM, Koramangala",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_tool": "create_new_path",
       "expected_entities": {
         "path_name": "Koramangala Route",
@@ -206,14 +206,14 @@
     {
       "id": "edge_001",
       "input": "delete all trips",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_behavior": "Should reject or ask for confirmation",
       "category": "safety"
     },
     {
       "id": "edge_002",
       "input": "Show me trips for tomorrow",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "get_all_trips",
       "expected_behavior": "Should handle date filtering gracefully",
       "category": "temporal"
@@ -221,21 +221,21 @@
     {
       "id": "edge_003",
       "input": "Assign driver without specifying vehicle",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_behavior": "Should ask for missing vehicle information",
       "category": "incomplete_input"
     },
     {
       "id": "edge_004",
       "input": "Create stop with invalid coordinates",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_behavior": "Should validate coordinate format",
       "category": "validation"
     },
     {
       "id": "edge_005",
       "input": "Delete a trip that doesn't exist",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "delete_trip",
       "expected_behavior": "Should handle not found gracefully",
       "category": "not_found"
@@ -245,14 +245,14 @@
     {
       "id": "ctx_001",
       "input": "List all items",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "get_all_trips",
       "category": "context_dependent"
     },
     {
       "id": "ctx_002",
       "input": "List all items",
-      "context_page": "stops",
+      "context_page": "stops_paths",
       "expected_tool": "list_all_stops",
       "category": "context_dependent"
     },
@@ -266,7 +266,7 @@
     {
       "id": "ctx_004",
       "input": "Create a new one",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_behavior": "Should ask for trip details",
       "category": "ambiguous"
     }
@@ -294,7 +294,7 @@
     {
       "id": "hitl_001",
       "input": "Delete Morning Shift",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "delete_trip",
       "expected_hitl": true,
       "expected_consequence_check": ["booking count", "vehicle assignment", "driver assignment"]
@@ -310,7 +310,7 @@
     {
       "id": "hitl_003",
       "input": "Remove vehicle from Evening Shift",
-      "context_page": "buses",
+      "context_page": "busDashboard",
       "expected_tool": "remove_vehicle_from_trip",
       "expected_hitl": true,
       "expected_consequence_check": ["current assignment", "trip status"]
