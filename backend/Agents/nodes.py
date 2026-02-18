@@ -161,7 +161,7 @@ Available Tools:
 
     # 6. Parse safely
     try:
-        parsed = json.loads(llm_response.content)
+        parsed = json.loads(str(llm_response.content))
     except Exception:
         parsed = {"intent": None, "tool_name": None, "entities": {}}
 

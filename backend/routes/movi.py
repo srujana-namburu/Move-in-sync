@@ -2,7 +2,7 @@
 Movi API Endpoint
 FastAPI routes for Movi AI assistant
 """
-from typing import Optional, Dict, Any, AsyncGenerator
+from typing import Optional, Dict, Any, AsyncGenerator, Union
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -55,11 +55,11 @@ async def chat_with_movi(request: ChatRequest) -> StreamingResponse:
         "tags": ["movi-agent", f"page:{request.context_page or 'unknown'}"]
     }
     
-    async def event_generator():
+    async def event_generator() -> AsyncGenerator[str, None]:
         try:
             # Check if there's an ongoing interrupt waiting for resume
             state = agent_graph.get_state(config)
-            
+
             # Determine input for the graph
             if state.next:
                 # User is responding to an interrupt/confirmation request
@@ -68,7 +68,7 @@ async def chat_with_movi(request: ChatRequest) -> StreamingResponse:
                 ]
                 # Resume with the user's decision
                 # We use astream_events even for resume to capture subsequent output
-                input_data = Command(resume=user_approved)
+                input_data: Union[Command[Any], Dict[str, Any]] = Command(resume=user_approved)
             else:
                 # Normal flow: new conversation
                 existing_messages = state.values.get("messages", []) if state.values else []
@@ -176,7 +176,7 @@ class VoiceTokenResponse(BaseModel):
 
 
 @router.post("/voice/token", response_model=VoiceTokenResponse)
-async def get_voice_token(request: VoiceTokenRequest):
+async def get_voice_token(request: VoiceTokenRequest) -> VoiceTokenResponse:
     """
     Get LiveKit room token for voice chat.
     
@@ -229,6 +229,6 @@ async def get_voice_token(request: VoiceTokenRequest):
 
 # ========== HEALTH CHECK ==========
 @router.get("/health")
-def movi_health_check():
+def movi_health_check() -> Dict[str, str]:
     """Check if Movi service is running"""
     return {"status": "healthy", "service": "Movi AI Assistant"}

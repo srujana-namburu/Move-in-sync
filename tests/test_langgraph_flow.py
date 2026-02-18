@@ -238,10 +238,10 @@ class TestToolPageFiltering:
     """Tests for page-aware tool filtering"""
 
     def test_get_tools_for_buses_page(self):
-        """Test that buses page gets correct tools"""
+        """Test that busDashboard page gets correct tools"""
         from backend.Agents.tools import get_tools_for_page
 
-        tools = get_tools_for_page("buses")
+        tools = get_tools_for_page("busDashboard")
 
         tool_names = [t.name for t in tools]
 
@@ -251,10 +251,10 @@ class TestToolPageFiltering:
         assert "list_all_drivers" in tool_names
 
     def test_get_tools_for_stops_page(self):
-        """Test that stops page gets correct tools"""
+        """Test that stops_paths page gets correct tools"""
         from backend.Agents.tools import get_tools_for_page
 
-        tools = get_tools_for_page("stops")
+        tools = get_tools_for_page("stops_paths")
 
         tool_names = [t.name for t in tools]
 

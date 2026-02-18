@@ -86,7 +86,7 @@ def create_new_stop(
     errors = []
 
     # Helper function to create a single stop
-    def _create_single(name, lat, lon):
+    def _create_single(name: str, lat: float, lon: float) -> str:
         existing_stop = db.query(Stop).filter(Stop.name == name).first()
         if existing_stop:
             return f"Stop '{name}' already exists (ID: {existing_stop.stop_id})"

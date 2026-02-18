@@ -1,6 +1,7 @@
 import os
-from typing import Optional
+from typing import Any, List, Optional
 from langchain_openai import ChatOpenAI
+from langchain_core.tools import BaseTool
 from Agents.nodes import intent_node, response_node, consequence_node, tool_call_node
 from Agents.tools import ALL_TOOLS
 from langgraph.graph import StateGraph, END
@@ -28,15 +29,15 @@ else:
     print("⚠️  LangSmith tracing disabled (no API key found)")
 
 
-def build_movi_graph(llm, ALL_TOOLS):
+def build_movi_graph(llm: ChatOpenAI, ALL_TOOLS: List[BaseTool]) -> Any:
     """
     Builds the Movi agent graph with LangGraph's interrupt mechanism.
-    
+
     The graph now uses interrupt() in the consequence_node to pause execution
     and wait for human approval. No separate confirmation nodes needed.
     """
 
-    graph = StateGraph(dict)
+    graph = StateGraph(MoviState)
 
     # 1. Add nodes
     graph.add_node("intent", lambda s: intent_node(s, llm, ALL_TOOLS))
